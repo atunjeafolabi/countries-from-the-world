@@ -6,14 +6,16 @@
             :headers="headers"
             :items="items"
             buttons-pagination
+            @click-row="showRow"
     />
 </template>
 
 <script lang="ts" setup>
 import {ref, watch} from "vue";
-import EasyDataTable from 'vue3-easy-data-table';
+import EasyDataTable, {ClickRowArgument} from 'vue3-easy-data-table';
 import type {Header, Item, ServerOptions} from "vue3-easy-data-table";
 import CountryAPI from "@/api/CountryAPI";
+import router from "@/router";
 
 const headers: Header[] = [
     {text: "Official Name", value: "name.official"},
@@ -23,6 +25,7 @@ const headers: Header[] = [
     {text: "Flag", value: "flag"},
 ];
 
+// state
 const items = ref<Item[]>([]);
 const loading = ref(false);
 const serverItemsLength = ref(0);
@@ -33,6 +36,7 @@ const serverOptions = ref<ServerOptions>({
     // sortType: 'asc',
 });
 
+// methods
 const loadFromServer = async () => {
     loading.value = true;
     const {
@@ -44,10 +48,13 @@ const loadFromServer = async () => {
     serverItemsLength.value = serverTotalItemsLength;
     loading.value = false;
 };
-
-// initial load
 loadFromServer();
 
+const showRow = (item: ClickRowArgument) => {
+    router.push({name: 'country', params: {'name': item.name.official}});
+}
+
+// watchers
 watch(serverOptions, (value) => {
     loadFromServer();
 }, {deep: true});

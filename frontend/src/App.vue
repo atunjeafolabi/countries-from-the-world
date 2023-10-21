@@ -7,7 +7,7 @@ import CountriesView from "@/pages/CountriesView.vue";
         <h2>Countries From the World</h2>
     </header>
     <Suspense>
-        <CountriesView/>
+        <RouterView/>
     </Suspense>
 </template>
 

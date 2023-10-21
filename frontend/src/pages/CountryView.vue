@@ -1,17 +1,17 @@
 <script setup>
 import {useRoute} from 'vue-router';
-import {ref} from "vue";
+import {onBeforeMount, ref} from "vue";
 import CountryAPI from "@/api/CountryAPI";
 
 const route = useRoute();
 
-const countryName = ref(null);
-countryName.value = route.params.name;
-
+// state
 const country = ref(null);
 
-country.value = await CountryAPI.getCountry(countryName.value);
-console.log(await CountryAPI.getCountry(countryName.value))
+const countryName = route.params.name;
+
+country.value = await CountryAPI.getCountry(countryName);
+
 
 </script>
 
@@ -19,7 +19,7 @@ console.log(await CountryAPI.getCountry(countryName.value))
     <div class="about">
         <div>
             <h1>
-                {{ countryName }}
+                {{ country.name.official }}
                 {{ country.flag }}
             </h1>
             (<a :href="country.maps.googleMaps" target="_blank">Open Map</a>)

@@ -30,12 +30,9 @@ class CountryAPI {
     async getCountry(name: string) {
 
         const url: string = `${this.apiURL}/${name}`;
-        const country = await fetch(url);
+        const country = (await (await fetch(url)).json());
 
-        return {
-            serverCurrentPageItems: (await country.json()).data,
-            serverTotalItemsLength: (await country.json()).total
-        };
+        return country[0];
     }
 }
 
