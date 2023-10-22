@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\CountryService;
+use App\Services\interfaces\CountryService;
 use App\Services\Sorter;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;

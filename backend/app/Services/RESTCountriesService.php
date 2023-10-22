@@ -2,11 +2,11 @@
 
 namespace App\Services;
 
+use App\Services\interfaces\CountryService;
 use GuzzleHttp\Exception\RequestException;
-use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 
-class CountryService
+class RESTCountriesService implements CountryService
 {
     private string $countriesAPI;
 
@@ -17,7 +17,7 @@ class CountryService
         $this->countriesAPI = config('app.countriesUrl');
     }
 
-    public function getCountries()
+    public function getCountries(): array | null
     {
         $fieldsToReturn = 'name,capital,subregion,region,flag';
         $url = "$this->countriesAPI/all?fields=$fieldsToReturn";
