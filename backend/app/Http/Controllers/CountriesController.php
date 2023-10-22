@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\interfaces\CountryService;
-use App\Services\Sorter;
+use App\Repositories\interfaces\CountryRepository;
+use App\Repositories\Sorter;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class CountriesController extends Controller
 {
-    private CountryService $countryService;
+    private CountryRepository $countryRepository;
 
     private Sorter $sorter;
 
@@ -18,26 +18,26 @@ class CountriesController extends Controller
     public function __construct(
         Sorter $sorter,
         Request $request,
-        CountryService $countriesService
+        CountryRepository $countryRepository
     ) {
-        $this->countryService = $countriesService;
-        $this->sorter         = $sorter;
+        $this->countryRepository = $countryRepository;
+        $this->sorter            = $sorter;
         $this->request        = $request;
     }
 
     /**
      * Gets the list of countries
      */
-    public function index()
+    public function index(): array|LengthAwarePaginator
     {
-        $countries = $this->countryService->getCountries();
+        $countries = $this->countryRepository->getCountries();
 
         if ( ! $countries) {
             return ['error' => 'Somehow unable to retrieve countries list'];
         }
 
         return $this->shouldPaginate()
-            ? $this->paginate($countries)
+            ? $this->paginate()
             : ($this->shouldSort() ? $this->sort($countries) : $countries);
     }
 
@@ -55,21 +55,21 @@ class CountriesController extends Controller
 
         // TODO: validate name parameter
 
-        return $this->countryService->getCountry($countryName);
+        return $this->countryRepository->getCountry($countryName);
     }
 
-    protected function paginate($countries): LengthAwarePaginator
+    protected function paginate(): LengthAwarePaginator
     {
         $currentPage = $this->request->page ?? 1;
         $limit       = $this->request->limit ?? 5;
 
-        $countries = $this->countryService->limitResults($currentPage, $limit);
+        $countries = $this->countryRepository->getPartialListOfCountries($currentPage, $limit);
 
         return new LengthAwarePaginator(
             $this->shouldSort()
                 ? $this->sort($countries)
                 : $countries,
-            $this->countryService->getTotalCountriesCount(),
+            $this->countryRepository->getTotalCountriesCount(),
             $limit,
             $currentPage
         );

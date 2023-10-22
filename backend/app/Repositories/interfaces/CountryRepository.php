@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Services\interfaces;
+namespace App\Repositories\interfaces;
 
-interface CountryService
+interface CountryRepository
 {
     public function getCountry($countryName);
 
     public function getCountries(): array | null;
 
-    public function limitResults(): array;
+    public function getPartialListOfCountries(): array;
 
     public function getTotalCountriesCount(): int;
 

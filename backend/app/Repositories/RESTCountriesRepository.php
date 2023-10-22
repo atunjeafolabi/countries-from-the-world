@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Services;
+namespace App\Repositories;
 
-use App\Services\interfaces\CountryService;
+use App\Repositories\interfaces\CountryRepository;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Http;
 
-class RESTCountriesService implements CountryService
+class RESTCountriesRepository implements CountryRepository
 {
     private string $countriesAPI;
 
@@ -31,9 +31,11 @@ class RESTCountriesService implements CountryService
         return $this->countries;
     }
 
-    public function limitResults($currentPage = 1, $limit = 5): array
+    public function getPartialListOfCountries($startingPage = 1, $limit = 5): array
     {
-        $startingPoint = ($currentPage * $limit) - $limit;
+        $this->countries ?? $this->getCountries();
+
+        $startingPoint = ($startingPage * $limit) - $limit;
 
         return array_slice($this->countries, $startingPoint, $limit, true);
     }

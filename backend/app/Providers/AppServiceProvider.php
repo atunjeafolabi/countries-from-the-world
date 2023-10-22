@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Services\interfaces\CountryService;
-use App\Services\RESTCountriesService;
+use App\Repositories\interfaces\CountryRepository;
+use App\Repositories\RESTCountriesRepository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,8 +22,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->app->singleton(CountryService::class, function () {
-            return new RESTCountriesService();
+        $this->app->singleton(CountryRepository::class, function () {
+            return new RESTCountriesRepository();
         });
     }
 }
