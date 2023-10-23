@@ -21,7 +21,7 @@ class RESTCountriesRepository implements CountryRepository
         int|null $startingPage = null,
         int|null $limit = null
     ): array|null {
-        $url = $this->url('all', $this->fields());
+        $url = $this->url('all', $this->getQueryParams());
 
         try {
             $this->countries = Http::get($url)->json();
@@ -44,7 +44,7 @@ class RESTCountriesRepository implements CountryRepository
     {
         $path = $this->namePath($countryName);
 
-        $url = $this->url($path, $this->fields());
+        $url = $this->url($path, $this->getQueryParams());
 
         return Http::get($url)->json();
     }
@@ -65,24 +65,24 @@ class RESTCountriesRepository implements CountryRepository
         return count($this->countries);
     }
 
-    protected function url($path = 'all', $queryParams = []): string
+    protected function url($path = 'all', $queryParams = ''): string
     {
         $url = $this->baseUrl . '/';
 
         if ($path) {
-            $url = $url . $path;
+            $url .= $path;
         }
 
         if ($queryParams) {
-            $url = $url . $this->buildQueryParams($queryParams);
+            $url .= $queryParams;
         }
 
         return $url;
     }
 
-    protected function fields(): array
+    private function getQueryParams(): string
     {
-        return ['fields' => 'name,capital,subregion,region,flag,maps,coatOfArms,languages'];
+        return $this->buildQueryParams([ 'fields' => $this->fields() ]);
     }
 
     private function buildQueryParams(array $params): string
@@ -103,5 +103,10 @@ class RESTCountriesRepository implements CountryRepository
     private function buildPath(string $name, string $value): string
     {
         return "{$name}/{$value}";
+    }
+
+    protected function fields(): string
+    {
+        return 'name,capital,subregion,region,flag,maps,coatOfArms,languages';
     }
 }
