@@ -61,9 +61,9 @@ class CountriesController extends Controller
     protected function paginate(): LengthAwarePaginator
     {
         $currentPage = $this->request->page ?? 1;
-        $limit       = $this->request->limit ?? 5;
+        $limit       = $this->request->limit ?? 12;
 
-        $countries = $this->countryRepository->getPartialListOfCountries($currentPage, $limit);
+        $countries = $this->countryRepository->getCountries($currentPage, $limit);
 
         return new LengthAwarePaginator(
             $this->shouldSort()
