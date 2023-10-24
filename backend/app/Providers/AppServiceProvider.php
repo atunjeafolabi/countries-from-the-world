@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->app->singleton(CountryRepository::class, function () {
-            return new RESTCountriesRepository(config('app.countriesUrl'));
+            return new RESTCountriesRepository(config('custom.countriesUrl'));
         });
     }
 }

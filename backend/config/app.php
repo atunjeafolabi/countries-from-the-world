@@ -18,7 +18,6 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
-    'countriesUrl' => env('COUNTRIES_API_URL', 'Laravel'),
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -43,7 +42,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
