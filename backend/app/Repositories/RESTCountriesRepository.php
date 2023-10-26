@@ -20,7 +20,8 @@ class RESTCountriesRepository implements CountryRepository
     public function getCountries(
         int|null $startingPage = null,
         int|null $limit = null
-    ): array|null {
+    ): array|null
+    {
         $url = $this->url('all', $this->getQueryParams());
 
         try {
@@ -31,10 +32,7 @@ class RESTCountriesRepository implements CountryRepository
 
         $shouldGetPartialList = $startingPage || $limit;
         if ($shouldGetPartialList) {
-            return $this->getPartialListOfCountries(
-                $this->countries,
-                $startingPage ?? 1, $limit ?? 10
-            );
+            return $this->getPartialListOfCountries($this->countries, $startingPage ?? 1, $limit ?? 10);
         }
 
         return $this->countries;
@@ -53,8 +51,8 @@ class RESTCountriesRepository implements CountryRepository
         $countries,
         $startingPage,
         $limit
-    ): array {
-
+    ): array
+    {
         $startingPoint = ($startingPage * $limit) - $limit;
 
         return array_slice($countries, $startingPoint, $limit, true);
@@ -82,7 +80,7 @@ class RESTCountriesRepository implements CountryRepository
 
     private function getQueryParams(): string
     {
-        return $this->buildQueryParams([ 'fields' => $this->fields() ]);
+        return $this->buildQueryParams(['fields' => $this->fields()]);
     }
 
     private function buildQueryParams(array $params): string
