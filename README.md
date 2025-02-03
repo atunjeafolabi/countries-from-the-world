@@ -37,7 +37,7 @@ This solution implements an application which retrieves world countries list wit
 
 - PHP 8.2
 - Laravel 10
-- VueJS
+- Vue 3
 - Typescript
 
 # Screenshots
