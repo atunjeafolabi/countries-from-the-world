@@ -25,6 +25,7 @@ This solution implements an application which retrieves world countries list wit
     .
     ├── backend
     ├── frontend
+    ├── screenshots
     └── .gitignore
 
 ## Usage
