@@ -39,7 +39,13 @@ This solution implements an application which retrieves world countries list wit
 - VueJS
 - Typescript
 
----
+# Screenshots
+
+- List Page
+  ![List Page](screenshots/data-table-list.png)
+
+- Details Page
+  ![Details Page](screenshots/details-page.png)
 
 ### Todo
 
